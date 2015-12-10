@@ -39,7 +39,8 @@
         android:id="@+id/RegisterPasswordEditText"
         android:layout_below="@+id/RegisterEmailEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:hint="password" />
 
     <Button
         android:layout_width="match_parent"

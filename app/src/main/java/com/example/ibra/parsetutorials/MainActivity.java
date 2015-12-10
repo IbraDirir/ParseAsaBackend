@@ -1,5 +1,7 @@
 package com.example.ibra.parsetutorials;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,25 +22,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
+        //current User
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            // do stuff with the user
+        } else {
+            // show the signup or login screen
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+        }
 
-        Parse.initialize(this, "tR4G5zUyepIcr3vUCZVTgBMDFxczAG887SoXGdZ9", "Wbq00XhDe7SEUshirX5AOQmvDe3by5gv5U5FbgHO");
 
-        ParseObject gameScore = new ParseObject("GameScore");
-        gameScore.put("score", 1337);
-        gameScore.put("playerName", "Sean Plott");
-        gameScore.put("cheatMode", false);
-        gameScore.saveInBackground();
+
 
 
 
 
         setContentView(R.layout.activity_main);
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -64,9 +67,24 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+     switch (id){
+         case R.id.updateStatus:
+             //take user to update status activity
+             Intent intent = new Intent(this, UpdateStatusActivity.class);
+             startActivity(intent);
+             break;
+         case R.id.logoutUser:
+             //log out the user
+             ParseUser.logOut();
+             //take user to the log in screen
+             Intent takeUserTologIn = new Intent(this, LoginActivity.class);
+             startActivity(takeUserTologIn);
+             break;
+
+     }
+
+
+
 
         return super.onOptionsItemSelected(item);
     }
